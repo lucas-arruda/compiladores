@@ -1,0 +1,14 @@
+.btn {
+    padding: .8rem 3rem;
+    padding-top: 0.8rem;
+    padding-right: 2rem;
+    padding-bottom: 0.8rem;
+    padding-left: 2rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.btn-bd-primary {
+    color: #7952b3;
+    border-color: #7952b3;
+}

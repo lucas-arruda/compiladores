@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- Meta tags Obrigatórias -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <title>Bem vindo</title>
+    </head>
+
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSite">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.html">Inicio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="documentacao.html">Documentação</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+
+        <div class="row"> 
+            <div class="col-sm-7 mx-auto" id="mostrar_fonte" style="display: block;">
+                <div class="form-group">
+                    <h2 class="card-little text-center">Codigo Fonte</h2>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control rounded-0" id="codigo_fonte" rows="20"></textarea>
+                    <input type="hidden" id="linhas" name="linhas" value="0">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-dark" id="executar_compilador" onclick="compilar_codigo()">Compilar</button>
+                </div>
+                <br>
+                <br>
+            </div>
+            <div class="co-sm-4 mx-auto" id="resultado" style="display: none">
+                <div class="form-group">
+                    <table class="table table-hover table-dark" id="programa">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-dark" id="executar_compilador" onclick="executar()">Executar</button>
+                </div>
+                <div class="form-group" id="mostrar_botao_fonte" style="display: none;">
+                    <button type="button" class="btn btn-dark" id="executar_compilador" onclick="mostrar_fonte()">Mostrar Fonte</button>
+                </div>
+            </div>
+            <div class="col-sm-4 mx-auto" id="mostrar_erros" style="display: block">
+                <div class="form-group">
+                    <h2 class="card-little text-center">Erros</h2>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control rounded-0" id="erros" rows="10" readonly></textarea>
+                </div>
+            </div>
+        </div> 
+        
+        
+    
+        <!-- JavaScript (Opcional) -->
+        <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
+        <script src="js/compilador.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+      </body>
+
+</html>
+
