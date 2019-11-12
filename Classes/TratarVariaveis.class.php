@@ -1,39 +1,10 @@
 <?php
 
-require_once 'Classes/LogErros.class.php';
 require_once 'Classes/TipoVariaveis.class.php';
 require_once 'Classes/PalavrasReservadas.class.php';
 require_once 'Classes/Identificadores.class.php';
 
 class TratarVariaveis {
-
-    public function verificarVariavelLida($variaveis = [], $safes = []) {
-        try {
-            $variaveisLidas = $variaveisNaoLidas = [];
-            foreach ($safes as $valor) {
-                if (in_array($valor['nome'], $variaveis)) {
-                    $variaveisLidas[] = $valor['nome'];
-                }
-            }
-            foreach ($variaveis as $valor) {
-                if (!in_array($valor['nome'], $variaveisLidas)) {
-                    $variaveisNaoLidas[] = $valor['nome'];
-                }
-            }
-
-            if (count($variaveisNaoLidas)) {
-                $variaveis = implode(", ", $variaveisNaoLidas);
-                throw new Exception("As variaveis " . $variaveis . " não foram lidas.");
-            }
-            return true;
-        } catch (Exception $e) {
-            LogErros::log($e->getMessage());
-            return [
-                'error' => true,
-                'mensagem' => $e->getMenssage()
-            ]; 
-        }
-    }
 
     /**
      * Metodo para verificar se as variaveis foram declaradas corretamente.
@@ -43,6 +14,7 @@ class TratarVariaveis {
      * @throws Exception array
      */
     public function varDeclarada($linhaVariavel = []) {
+        $nome = $valor = "";
         try {
             if(!PalavrasReservadas::reservadas(strtolower($linhaVariavel[0]))) {
                 throw new Exception("Palavra chave var ausente ou não encontrada.");
@@ -69,21 +41,28 @@ class TratarVariaveis {
                 if (count($dados) == 1) {
                     throw new Exception("erro encontrado na linha " . $dados[0]);
                 }
-                if (preg_replace("^=", "", $dados[1]) != "") {
+
+                if (preg_replace("/[^=]/", "", $dados[1]) != "") {
                     $verificaVariavel = explode("=", $dados[1]);
                     if(!Identificadores::string($verificaVariavel[0])) {
-                        throw new Exception("O nome da variavel " . $verificaVariavel[0] . " não possuí letras.");
+                        throw new Exception("O nome da variavel " . $verificaVariavel[0] . " possuí caracteres especiais.");
                     }
                     if(!Identificadores::numeros($verificaVariavel[1])) {
                         throw new Exception("O valor da variavel " . $verificaVariavel[1] . " não possuí números.");
                     }
                     $nome = $verificaVariavel[0];
                     $valor = $verificaVariavel[1];
+                } else {
+                    if(!Identificadores::string($dados[1])) {
+                        throw new Exception("O nome da variavel " . $dados[1] . " não possuí letras.");
+                    }
+                    $nome = $dados[1];
+                    $valor = 0;
                 }
                 $variaveis[] = [
-                    'nome' => isset($nome) ? $nome : $dados[1],
+                    'nome' => $nome,
                     'tipo' => $dados[0],
-                    'valor' => isset($valor) ? $valor : "",
+                    'valor' => $valor
                 ];
             }
             return [
@@ -91,7 +70,6 @@ class TratarVariaveis {
                 'variaveis' => $variaveis
             ];
         } catch (Exception $e) {
-            LogErros::log($e->getMessage());
             return [
                 'erro' => true,
                 'mensagem'=> $e->getMessage()

@@ -1,12 +1,13 @@
 <?php
 
-require_once 'Classes/LogErros.class.php';
 require_once 'Classes/PalavrasReservadas.class.php';
+require_once 'Classes/Operandos.class.php';
+require_once 'Classes/Identificadores.class.php';
 
 class Estrutura {
 
     /**
-     * Metodo para verificar se os identificadores show e safe estão escritos corretamente.
+     * Metodo que monta a estrutura do compilador e verifica se possui erros, se não, o codigo pode ser compilado
      * 
      * @param array $dados
      * @param array $variaveis
@@ -15,72 +16,161 @@ class Estrutura {
      */
     public function estrutura($dados = [], $variaveis = []) {
         try {
-            $texto = "";
-            $safe = 0;
-            $safes = $shows = $linhas = [];
+            $safes = $shows = $linhas = $valorStrings = [];
+            $primeiraString = "";
             foreach ($dados as $registro) {
-                $paralavraReservada = preg_replace("/[^a-zA-Z]/", "", substr($registro, 0, 5));
-                switch ($paralavraReservada) {
-                    case "show":
-                        if (!PalavrasReservadas::reservadas($paralavraReservada)) {
-                            throw new Exception("Palavra " . $paralavraReservada . " não reconhecida.");
-                        }
-                        $texto = str_replace("show", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
-                        if (substr($registro, 4, 1) != "(") {
-                            throw new Exception("Não encontrado ( após show.");
-                        }
-                        if (substr($registro, -1) != ";") {
-                            throw new Exception("na linha do show não foi encontrado o ;");
-                        }
-                        if (substr($registro, -2) != ");") {
-                            throw new Exception("na linha do show não foi encontrado o ) antes do ;");
-                        }
-                        $shows[] = $texto;
-                        break;
-                    case "safe":
-                        if (!PalavrasReservadas::reservadas($paralavraReservada)) {
-                            throw new Exception("Palavra " . $paralavraReservada . " não reconhecida.");
-                        }
-                        if (substr($registro, 4, 1) != "(") {
-                            throw new Exception("Não encontrado ( após safe.");
-                        }
-                        if (substr($registro, -1) != ";") {
-                            throw new Exception("na linha do safe não foi encontrado o ;");
-                        }
-                        if (substr($registro, -2) != ");") {
-                            throw new Exception("na linha do safe não foi encontrado o ) antes do ;");
-                        }
-                        $variavel = str_replace("safe", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
-                        foreach ($variaveis as $valores) {
-                            $variaveisDeclarados[] = $valores['nome'];
-                        }
-                        if (!in_array($variavel, $variaveisDeclarados)) {
-                            throw new Exception("A variavel " . $variavel . " não foi declarada.");
-                        }
-                        unset($variaveisDeclarados);
-                        $safes[] = $variavel;
-                        $safe++;
-                        break;
-                    default:
-                        if (substr($registro, -1) != ";") {
-                            throw new Exception("na linha ". $registro . " não foi encontrado o ;");
-                        }
-                        $linhas[] = $registro;
-                        break;
+                $operador = "";
+                $espacosBrancos = preg_replace("/[^[:space:]]/", "", $registro);
+                if ($espacosBrancos == "") {
+                    if(!PalavrasReservadas::reservadas(substr($registro, 0, 4))) {
+                        throw new Exception("Erro encontrado na linha " . $registro);
+                    }
                 }
-                
-            }
-            if ($safe === 0) {
-                throw new Exception("Nenhuma variavel foi lida.");
+                if (substr($registro, -1) != ";") {
+                    throw new Exception("Erro encontrado o ; na linha " . $registro);
+                }
+
+                $linha = explode(" ", str_replace(";", "", $registro));
+                if (count($linha) == 1) {
+                    $palavraReservada = substr($linha[0], 0, 4);
+                    if (PalavrasReservadas::reservadas($palavraReservada)) {
+                        if (substr($registro, 4, 1) != "(") {
+                            throw new Exception("Não encontrado ( após " . $palavraReservada . ".");
+                        }
+                        if (substr($registro, -1) != ";") {
+                            throw new Exception("na linha do ". $palavraReservada . " não foi encontrado o ;");
+                        }
+                        if (substr($registro, -2) != ");") {
+                            throw new Exception("na linha do " . $palavraReservada . " não foi encontrado o ) antes do ;");
+                        }
+                        if ($palavraReservada == "show") {
+                            $string = str_replace("show", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
+                        } else {
+                            $string = str_replace("safe", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
+                        }
+                        for ($i = 0;$i < count($variaveis);$i++) {
+                            if ($string == $variaveis[$i]['nome']) {
+                                $variaveis[$i][$palavraReservada] = $string;
+                            }
+                        }
+                    } else {
+                        throw new Exception("Palavra reservada " . $palavraReservada . " não reconhecida.");
+                    }
+                }
+                if (count($linha) == 3) {
+                    foreach ($linha as $string) {
+                        if (Identificadores::string($string) && !Identificadores::numeros($string)) {
+                            continue;
+                        } else if (Identificadores::numeros($string)) {
+                            for ($i = 0;$i < count($variaveis);$i++) {
+                                if ($operador == "=") {
+                                    if ($linha[0] == $variaveis[$i]['nome']) {
+                                        if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
+                                            throw new Exception("Valor digitado para variavel está incorreto");
+                                        }
+                                        $variaveis[$i]['valor'] = $variaveis[$i]['tipo'] == "float" ? (float)$string : (int)$string;
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (Operandos::operadores($string)) {
+                            $operador = $string;
+                        } else {
+                            throw new Exception("Palavra " . $string . " não reconhecida.");
+                        }
+                    }
+                }
+                if (count($linha) > 3) {
+                    foreach ($linha as $string) {
+                        if (Identificadores::string($string) && !Identificadores::numeros($string)) {
+                            if ($primeiraString == "") {
+                                $primeiraString = $string;
+                            }
+                            if ($operador != "" && ($operador == "=" || $operador == "+")) {
+                                $cont = 0;
+                                for ($i = 0;$i < count($variaveis);$i++) {
+                                    if ($string == $variaveis[$i]['nome']) {
+                                        $valor = $variaveis[$i]['valor'];
+                                        $tipo = $variaveis[$i]['tipo'];
+                                        break;
+                                    }
+                                }
+                                
+                                for ($i = 0;$i < count($variaveis);$i++) {
+                                    if ($primeiraString == $variaveis[$i]['nome'] &&  $tipo == $variaveis[$i]['tipo']) {
+                                        $variaveis[$i]['valor'] += $valor;
+                                        $cont++;
+                                        break;
+                                    } 
+                                }
+                                if ($cont === 0) {
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                }
+                            }
+                            if ($operador != "" && $operador == "-") {
+                                $cont = 0;
+                                for ($i = 0;$i < count($variaveis);$i++) {
+                                    if ($string == $variaveis[$i]['nome']) {
+                                        $valor = $variaveis[$i]['valor'];
+                                        $tipo = $variaveis[$i]['valor'];
+                                        break;
+                                    }
+                                }
+                                for ($i = 0;$i < count($variaveis);$i++) {
+                                    if ($primeiraString == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
+                                        $variaveis[$i]['valor'] = $variaveis[$i]['valor'] - $valor;
+                                        $cont++;
+                                        break;
+                                    }
+                                }
+                                if ($cont === 0) {
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                }
+                            }
+                        } else if (Identificadores::numeros($string)) {
+                            if ($operador != "" && ($operador == "=" || $operador == "+")) {
+                                $cont = 0;
+                                for ($i = 0;$i < count($variaveis);$i++) {
+                                    if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
+                                        throw new Exception("Valor digitado para variavel está incorreto");
+                                    }
+                                    if ($primeiraString == $variaveis[$i]['nome']) {
+                                        $variaveis[$i]['valor'] += $valor;
+                                        $cont++;
+                                        break;
+                                    } 
+                                }
+                                if ($cont === 0) {
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                }
+                            }
+                            if ($operador != "" && $operador == "-") {
+                                $cont = 0;
+                                for ($i = 0;$i < count($variaveis);$i++) {
+                                    if ($primeiraString == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
+                                        if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
+                                            throw new Exception("Valor digitado para variavel está incorreto");
+                                        }
+                                        $variaveis[$i]['valor'] = $variaveis[$i]['valor'] - $valor;
+                                        $cont++;
+                                        break;
+                                    }
+                                }
+                                if ($cont === 0) {
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                }
+                            }
+                        } else if (Operandos::operadores($string)) {
+                            $operador = $string;
+                        }
+                    }
+                }
             }
             return [
                 'erro' => false,
-                'shows' => $shows,
-                'safes' => $safes,
-                'linhas' => $linhas
+                'variaveis' => $variaveis
             ];
         } catch (Exception $e) {
-            LogErros::log($e->getMessage());
             return [
                 'erro' => true,
                 'mensagem' => $e->getMessage()
