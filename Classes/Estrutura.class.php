@@ -48,11 +48,11 @@ class Estrutura {
                         if ($palavraReservada == "show") {
                             $cont = 0;
                             $string = str_replace("show", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
-                            if ($safe === false) {
-                                throw new Exception("variavel " . $string . "  não pode ser mostrada, não foi armazenada como variavel.");
-                            }
                             for ($i = 0;$i < count($variaveis);$i++) {
-                                if ($string == $variaveis[$i]['nome'] && $safe) {
+                                if ($string == $variaveis[$i]['nome']) {
+                                    if (!isset($variaveis[$i]['safe'])) {
+                                        throw new Exception("variavel " . $string . "  não pode ser mostrada, não foi armazenada na memória.");
+                                    }
                                     $variaveis[$i]['show'] = true;
                                     $cont++;
                                 }
@@ -64,7 +64,7 @@ class Estrutura {
                             $string = str_replace("safe", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
                             for ($i = 0;$i < count($variaveis);$i++) {
                                 if ($string == $variaveis[$i]['nome']) {
-                                    $safe = true;
+                                    $variaveis[$i]['safe'] = true;
                                 } 
                             }
                         }
@@ -112,6 +112,9 @@ class Estrutura {
                                 $tipo = $existeVariavel = false;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($string == $variaveis[$i]['nome']) {
+                                        if (!isset($variaveis[$i]['safe'])) {
+                                            throw new Exception("A variável " . $string . " não foi armazenada na memória.");
+                                        }
                                         $valor = $variaveis[$i]['valor'];
                                         $tipo = $variaveis[$i]['tipo'];
                                         $existeVariavel = true;
@@ -136,8 +139,11 @@ class Estrutura {
                                 $cont = 0;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($string == $variaveis[$i]['nome']) {
+                                        if (!isset($variaveis[$i]['safe'])) {
+                                            throw ("A variável " . $string . " não foi armazenada na memória.");
+                                        }
                                         $valor = $variaveis[$i]['valor'];
-                                        $tipo = $variaveis[$i]['valor'];
+                                        $tipo = $variaveis[$i]['tipo'];
                                         break;
                                     }
                                 }
