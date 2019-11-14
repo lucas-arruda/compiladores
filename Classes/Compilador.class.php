@@ -3,16 +3,19 @@
 require_once 'Classes/TratarVariaveis.class.php';
 require_once 'Classes/Estrutura.class.php';
 require_once 'Classes/VerificaInicioFim.class.php';
+require_once 'Classes/TratarResultadoFinal.class.php';
 
 class Compilador {
     protected $trataVariaveis;
     protected $estrutura;
     protected $verificaInicioFim;
+    protected $retornoFinal;
 
     public function __construct() {
         $this->trataVariaveis =  new TratarVariaveis();
         $this->estrutura = new Estrutura();
         $this->verificaInicioFim = new VerificaInicioFIm();
+        $this->retornoFinal = new TratarResultadoFinal();
     }
 
     /**
@@ -43,7 +46,12 @@ class Compilador {
                 throw new Exception($retornoEstrutura['mensagem']);
             }
             unset($retornoEstrutura['erro']);
-            return $retornoEstrutura;
+            $retornoResultado = TratarResultadoFinal::mostrarResultadoFinal($retornoEstrutura);
+            return [
+                'erro' => false,
+                'mensagem' => "",
+                'resultado' => $retornoResultado
+            ];
         } catch (Exception $e) {
             LogErros::log($e->getMessage());
             return [

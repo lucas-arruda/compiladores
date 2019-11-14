@@ -16,7 +16,8 @@ class Estrutura {
      */
     public function estrutura($dados = [], $variaveis = []) {
         try {
-            $safes = $shows = $linhas = $valorStrings = [];
+            $linhas = $valorStrings = [];
+            $safe = false;
             $primeiraString = "";
             foreach ($dados as $registro) {
                 $operador = "";
@@ -43,14 +44,28 @@ class Estrutura {
                         if (substr($registro, -2) != ");") {
                             throw new Exception("na linha do " . $palavraReservada . " não foi encontrado o ) antes do ;");
                         }
+                        
                         if ($palavraReservada == "show") {
+                            $cont = 0;
                             $string = str_replace("show", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
+                            if ($safe === false) {
+                                throw new Exception("variavel " . $string . "  não pode ser mostrada, não foi armazenada como variavel.");
+                            }
+                            for ($i = 0;$i < count($variaveis);$i++) {
+                                if ($string == $variaveis[$i]['nome'] && $safe) {
+                                    $variaveis[$i]['show'] = true;
+                                    $cont++;
+                                }
+                            }
+                            if ($cont === 0) {
+                                throw new Exception("variavel " . $string . "  não pode ser mostrada, não foi armazenada como variavel.");
+                            }
                         } else {
                             $string = str_replace("safe", "", str_replace("(", "", str_replace(")", "", str_replace(";", "", $registro))));
-                        }
-                        for ($i = 0;$i < count($variaveis);$i++) {
-                            if ($string == $variaveis[$i]['nome']) {
-                                $variaveis[$i][$palavraReservada] = $string;
+                            for ($i = 0;$i < count($variaveis);$i++) {
+                                if ($string == $variaveis[$i]['nome']) {
+                                    $safe = true;
+                                } 
                             }
                         }
                     } else {
@@ -84,26 +99,36 @@ class Estrutura {
                     foreach ($linha as $string) {
                         if (Identificadores::string($string) && !Identificadores::numeros($string)) {
                             if ($primeiraString == "") {
-                                $primeiraString = $string;
+                                for ($i = 0; $i < count($variaveis); $i++) {
+                                    if ($string == $variaveis[$i]['nome']) {
+                                        $primeiraString = $string;
+                                    }
+                                }
+                                if ($primeiraString == "") {
+                                    throw new Exception("Palavra " . $string . " não reconhecida como uma variavel.");
+                                } 
                             }
                             if ($operador != "" && ($operador == "=" || $operador == "+")) {
-                                $cont = 0;
+                                $tipo = $existeVariavel = false;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($string == $variaveis[$i]['nome']) {
                                         $valor = $variaveis[$i]['valor'];
                                         $tipo = $variaveis[$i]['tipo'];
+                                        $existeVariavel = true;
                                         break;
                                     }
                                 }
-                                
+                                if (!$existeVariavel) {
+                                    throw new Exception("Variavel " . $string . " não reconhecida.");
+                                }
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($primeiraString == $variaveis[$i]['nome'] &&  $tipo == $variaveis[$i]['tipo']) {
                                         $variaveis[$i]['valor'] += $valor;
-                                        $cont++;
+                                        $tipo = true;
                                         break;
                                     } 
                                 }
-                                if ($cont === 0) {
+                                if (!$tipo) {
                                     throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
                                 }
                             }

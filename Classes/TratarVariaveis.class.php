@@ -51,7 +51,7 @@ class TratarVariaveis {
                         throw new Exception("O valor da variavel " . $verificaVariavel[1] . " não possuí números.");
                     }
                     $nome = $verificaVariavel[0];
-                    $valor = $verificaVariavel[1];
+                    $valor = (int)$verificaVariavel[1];
                 } else {
                     if(!Identificadores::string($dados[1])) {
                         throw new Exception("O nome da variavel " . $dados[1] . " não possuí letras.");
