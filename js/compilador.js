@@ -1,7 +1,8 @@
 var compilar_codigo = function () {
     $("#executar_compilador").html(
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' + 
-        'Loading...');
+        'Loading...'
+    );
     $.post('ajax.php', {
         acao: "compilar",
         codigo_fonte: $("#codigo_fonte").val()
@@ -12,7 +13,7 @@ var compilar_codigo = function () {
             $("#executar_compilador").html('Compilar');
             return false;
         }
-        console.log(dados);
+        
         $("#erros").text("");
         $("#texto_resultado").text(dados.resultado);
         $("#executar_compilador").html('Compilar');
