@@ -5,35 +5,45 @@ var compilar_codigo = function () {
     $.post('ajax.php', {
         acao: "compilar",
         codigo_fonte: $("#codigo_fonte").val()
-    }, function (dados) {
-        if(dados.mensagem != "") {
-            $("#erros").text(dados.mensagem);
-            $("#codigo_fonte").css("display", "block");
-            $("#executar_compilador").html('Compilar');
-        }
-
+    }, function (dados) { 
         if (dados.erro) {
             $("#erros").text(dados.mensagem);
-            $("#codigo_fonte").css("display", "block");
+            $("#texto_resultado").text("");
             $("#executar_compilador").html('Compilar');
+            return false;
         }
         console.log(dados);
-        cont = 0.
-        tabela = new Array();
-        for (var i = 0; i < dados.write.length; i++) {
-            tabela.push(
-                '<tr>' +
-                '<label>' + dados.write[cont] + '</label>' +
-                '<input type="text" id="valor_' 
-            );
-        }
-
-
+        $("#erros").text("");
+        $("#texto_resultado").text(dados.resultado);
+        $("#executar_compilador").html('Compilar');
+        $("#mostrar_fonte").css("display", "none");
+        $("#resultado").css("display", "block");
+        $("#mostrar_fonte").css("display", "none");
     }, "json");
 }
 
-var mostrar_fonte = function () {
-    $("#codigo_fonte").css("display", "block");
+var mostrar_fonte = function() {
+    if ($("#mostrar_fonte").css("display", "none")) {
+        $("#mostrar_fonte").css("display", "block");
+        $("#resultado").css("display", "none");
+    } else {
+        $("#mostrar_fonte").css("display", "none");
+        $("#resultado").css("display", "block");
+    }
+    
+}
+
+var mostrar_resultado = function() {
+    if ($("#resultado").css("display", "none")) {
+        if ($("#texto_resultado").text() === "") {
+            $("#texto_resultado").text("Nenhum codigo executado.");
+        }
+        $("#mostrar_fonte").css("display", "none");
+        $("#resultado").css("display", "block");
+    } else {
+        $("#resultado").css("display", "none");
+        $("#mostrar_fonte").css("display", "block");
+    }
 }
 
 

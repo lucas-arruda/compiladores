@@ -21,3 +21,32 @@
 [11/11/2019 07:46:39] - Palavra chave var ausente ou não encontrada. 
 [12/11/2019 11:58:19] - Palavra a não reconhecida. 
 [12/11/2019 16:14:45] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 20:14:04] - Nenhum dado encontrado 
+[13/11/2019 20:14:06] - Nenhum dado encontrado 
+[13/11/2019 20:14:07] - Nenhum dado encontrado 
+[13/11/2019 20:14:07] - Nenhum dado encontrado 
+[13/11/2019 20:14:07] - Nenhum dado encontrado 
+[13/11/2019 20:14:07] - Nenhum dado encontrado 
+[13/11/2019 20:16:12] - Nenhum dado encontrado 
+[13/11/2019 20:19:10] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 20:19:28] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 20:20:37] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:47] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:48] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:05:49] - Não foi possível calcular os valores. Os tipos das variaveis resultado e da a são diferentes. 
+[13/11/2019 21:11:33] - Palavra resultado não reconhecida como uma variavel. 
+[13/11/2019 21:14:18] - Palavra resultado não reconhecida como uma variavel. 
+[13/11/2019 21:33:50] - variavel resultado  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 21:37:23] - variavel resultado  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 21:49:32] - variavel resultado  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 21:50:39] - variavel resultado  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 21:55:36] - variavel teste  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 21:55:47] - variavel resultado  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 21:59:31] - variavel teste  não pode ser mostrada, não foi armazenada como variavel. 
+[13/11/2019 22:07:39] - Variavel c não reconhecida. 
