@@ -54,3 +54,17 @@
 [14/11/2019 11:12:54] - Não foi possível calcular os valores. Os tipos das variaveis a e da b são diferentes. 
 [14/11/2019 11:14:01] - Não foi possível calcular os valores. Os tipos das variaveis a e da b são diferentes. 
 [15/11/2019 14:27:49] - Nenhum dado encontrado 
+[15/11/2019 14:56:22] - Nenhum dado encontrado 
+[15/11/2019 14:56:27] - Nenhum dado encontrado 
+[15/11/2019 14:56:28] - Nenhum dado encontrado 
+[15/11/2019 14:56:28] - Nenhum dado encontrado 
+[15/11/2019 14:56:31] - Nenhum dado encontrado 
+[15/11/2019 15:01:16] - Nenhum dado encontrado 
+[15/11/2019 15:01:43] - Nenhum dado encontrado 
+[15/11/2019 15:02:03] - Nenhum dado encontrado 
+[15/11/2019 15:02:16] - Nenhum dado encontrado 
+[15/11/2019 15:02:20] - Nenhum dado encontrado 
+[15/11/2019 15:07:21] - #> não encontrado. 
+[15/11/2019 15:07:35] - Nenhum dado encontrado 
+[15/11/2019 15:07:47] - Palavra chave var ausente ou não encontrada. 
+[15/11/2019 15:11:27] - Palavra chave var ausente ou não encontrada. 
