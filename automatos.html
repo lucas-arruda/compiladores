@@ -7,7 +7,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+        <link rel="icon" href="data:,">
         <title>Bem vindo</title>
     </head>
 
@@ -23,7 +23,7 @@
                                     <a class="nav-link" href="index.html">Inicio</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="documentacao/documentacao.pdf">Documentação</a>
+                                    <a class="nav-link" href="javascript:abrir_popup()">Documentação</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="compilador.html">Codigo fonte</a>
@@ -38,9 +38,9 @@
             <div class="col-sm-4 mx-auto"></div>
             <div class="col-sm-4 mx-auto" id="mostrar_fonte">
                 <div class="form-group">
-                    <h2 class="card-little text-center">Analizador Léxico</h2>
+                    <h2 class="card-little text-center">Analisador Léxico</h2>
                 </div>
-                <div class="form-group" style="margin-left: 4px">
+                <div class="form-group" style="margin-left: 6em;">
                     <label class="label">Digite um valor:</label>
                     <input type="text" id="string" name="string"></input>
                     <button type="button" class="btn btn-dark" id="executar_caracter" onclick="executar_automato()">Executar</button>
@@ -53,7 +53,7 @@
     
         <!-- JavaScript (Opcional) -->
         <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-        <script src="js/compilador.js"></script>
+        <script src="js/documentacao.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="js/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

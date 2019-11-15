@@ -53,3 +53,4 @@
 [14/11/2019 11:07:11] - A variável b não foi armazenada na memória. 
 [14/11/2019 11:12:54] - Não foi possível calcular os valores. Os tipos das variaveis a e da b são diferentes. 
 [14/11/2019 11:14:01] - Não foi possível calcular os valores. Os tipos das variaveis a e da b são diferentes. 
+[15/11/2019 14:27:49] - Nenhum dado encontrado 
