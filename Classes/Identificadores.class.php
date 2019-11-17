@@ -18,7 +18,7 @@ class Identificadores {
     }
 
     public static function separadores($string) {
-        $separadores = [',', ',', ';', ':', '/', '"\"'];
+        $separadores = [',', ',', ';', ':', '/', '"\"', '#'];
         if (!in_array($string, $separadores)) {
             return false;
         }
