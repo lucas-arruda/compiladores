@@ -17,4 +17,12 @@ class Identificadores {
         return true;
     }
 
+    public static function separadores($string) {
+        $separadores = [',', ',', ';', ':', '/', '"\"'];
+        if (!in_array($string, $separadores)) {
+            return false;
+        }
+        return true;
+    }
+
 }

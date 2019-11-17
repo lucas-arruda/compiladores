@@ -3,7 +3,7 @@
 class Operandos {
 
     public static function operadores($operador) {
-        $operandos = ['+', '-', '='];
+        $operandos = ['+', '-', '=', '>', '<'];
         if (!in_array($operador, $operandos)) {
             return false;
         }

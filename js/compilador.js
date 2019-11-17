@@ -3,6 +3,11 @@ var compilar_codigo = function () {
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' + 
         'Loading...'
     );
+    if ($("#codigo_fonte").val() == "") {
+        alert("Nenhum registro encontrado.");
+        $("#executar_compilador").html('Compilar');
+        return false;
+    }
     $.post('ajax.php', {
         acao: "compilar",
         codigo_fonte: $("#codigo_fonte").val()
@@ -19,7 +24,6 @@ var compilar_codigo = function () {
         $("#executar_compilador").html('Compilar');
         $("#mostrar_fonte").css("display", "none");
         $("#resultado").css("display", "block");
-        $("#mostrar_fonte").css("display", "none");
     }, "json");
 }
 
@@ -27,11 +31,11 @@ var mostrar_fonte = function() {
     if ($("#mostrar_fonte").css("display", "none")) {
         $("#mostrar_fonte").css("display", "block");
         $("#resultado").css("display", "none");
-    } else {
-        $("#mostrar_fonte").css("display", "none");
-        $("#resultado").css("display", "block");
+        $("#mostrar_tabela").css("display", "none");
     }
-    
+    if ($("#mostrar_erros").css("display", "none")) {
+        $("#mostrar_erros").css("display", "block");
+    }
 }
 
 var mostrar_resultado = function() {
@@ -40,11 +44,42 @@ var mostrar_resultado = function() {
             $("#texto_resultado").text("Nenhum codigo executado.");
         }
         $("#mostrar_fonte").css("display", "none");
+        $("#mostrar_tabela").css("display", "none");
         $("#resultado").css("display", "block");
-    } else {
-        $("#resultado").css("display", "none");
-        $("#mostrar_fonte").css("display", "block");
     }
 }
 
+var mostrar_tabela = function() {
+    if ($("#mostrar_tabela").css("display", "none")) {
+        $("#mostrar_tabela").css("display", "block");
+        $("#mostrar_fonte").css("display", "none");
+        $("#mostrar_erros").css("display", "none");
+    }
+}
+
+var abrir_documentacao = function() {
+    nova_aba = window.open("documentacao/documentacao.pdf");
+};
+
+var abrir_automato = function() {
+    nova_aba = window.open("imagem/automato.png");
+};
+
+var analisador_lexico = function() {
+    $("#analisador_lexico").html(
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' + 
+        'Loading...'
+    );
+    if ($("#codigo_fonte").val() == "") {
+        alert("Nenhum registro encontrado.");
+        $("#analisador_lexico").html('Tabela de simbolos');
+        return false;
+    }
+    $.post('ajax.php', {
+        acao: "analisador_lexico",
+        codigo_fonte: $("#codigo_fonte").val()
+    }, function (dados) {
+
+    }, "json");
+}
 

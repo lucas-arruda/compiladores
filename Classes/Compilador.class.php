@@ -4,6 +4,7 @@ require_once 'Classes/TratarVariaveis.class.php';
 require_once 'Classes/Estrutura.class.php';
 require_once 'Classes/VerificaInicioFim.class.php';
 require_once 'Classes/TratarResultadoFinal.class.php';
+require_once 'Classes/LogErros.class.php';
 
 class Compilador {
     protected $trataVariaveis;
@@ -25,7 +26,7 @@ class Compilador {
      * @return array
      * @throws Exception array
      */
-    public function getDados ($dados) {
+    public function getDados($dados) {
         try {
             $codigoFonte = array_filter(explode("\n", $dados));
             $inicioCompilador = array_shift($codigoFonte);
