@@ -96,11 +96,12 @@ class Estrutura {
                 }
                 if (count($linha) > 3) {
                     foreach ($linha as $string) {
+                        if ($string == "") {
+                            throw new Exception("A linha " . implode(" ", $linha) . " contém erro.");
+                        }
                         if (Identificadores::string($string) && !Identificadores::numeros($string)) {
-                            if ($string == "") {
-                                throw new Exception("A palavra " . $string . " não foi reconhecida.");
-                            }
-                            if ($operador != "" && ($operador == "=" || $operador == "+")) {
+                            
+                            if ($operador != "" && $operador == "+") {
                                 $tipo = $existeVariavel = false;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($string == $variaveis[$i]['nome']) {
@@ -150,8 +151,9 @@ class Estrutura {
                                     throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
                                 }
                             }
+
                         } else if (Identificadores::numeros($string)) {
-                            if ($operador != "" && ($operador == "=" || $operador == "+")) {
+                            if ($operador != "" && $operador == "+") {
                                 $cont = 0;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {

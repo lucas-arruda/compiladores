@@ -41,7 +41,7 @@ class AnalisadorLexico {
                     break;
                 case ($this->simbolo != "s" || $this->simbolo != "v" || $this->simbolo != "i" || $this->simbolo != "f"):
                     $this->token .= $this->simbolo;
-                    $this->estadoAtual = 33;
+                    $this->estadoAtual = 34;
                     break;
                 default:
                     $this->token .= $this->simbolo;

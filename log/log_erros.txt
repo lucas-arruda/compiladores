@@ -71,3 +71,6 @@
 [17/11/2019 12:21:36] - #> não encontrado. 
 [17/11/2019 12:22:08] - Palavra chave var ausente ou não encontrada. 
 [17/11/2019 12:45:18] - A variável a não foi armazenada na memória. 
+[18/11/2019 14:31:01] - A linha Array contém erro. 
+[18/11/2019 14:32:19] - A linha Array contém erro. 
+[18/11/2019 14:32:26] - A linha resultado = a  b contém erro. 
