@@ -262,7 +262,7 @@ class AnalisadorLexico {
     }
 
     public function estado18Final() {
-        if (isset($this->entrada[$this->cont++])) {
+        if (isset($this->entrada[$this->cont + 1])) {
             $this->tabelaSimbolos($this->token, "Palavra reservada");
             $this->estadoAtual = 0;
         } else {
@@ -298,7 +298,7 @@ class AnalisadorLexico {
     }
 
     public function estado21Final() {
-        if (isset($this->entrada[$this->cont++])) {
+        if (isset($this->entrada[$this->cont + 1])) {
             $this->tabelaSimbolos($this->token, "Palavra reservada");
             $this->estadoAtual = 0;
         } else {
@@ -308,7 +308,7 @@ class AnalisadorLexico {
     }
 
     public function estado32Final() {
-        if (isset($this->entrada[$this->cont++])) {
+        if (isset($this->entrada[$this->cont + 1])) {
             $this->estadoAtual = 0;
         } else {
             $this->terminou = true;
@@ -433,11 +433,14 @@ class AnalisadorLexico {
     }
 
     public function tabelaSimbolos($token, $tipo, $valor = "") {
-        $this->tabelaSimbolos[$this->posicaoTabela] = [
-            'token' => $token,
-            'tipo' => $tipo,
-            'valor' => $valor,
-        ];
-        $this->posicaoTabela++;
+        if (!in_array($token, $this->tabelaSimbolos) && !in_array($tipo, $this->tabelaSimbolos) && !in_array($valor, $this->tabelaSimbolos)) {
+            $this->tabelaSimbolos[$this->posicaoTabela] = [
+                'token' => $token,
+                'tipo' => $tipo,
+                'valor' => $valor,
+            ];
+            $this->posicaoTabela++;
+        }
+        
     }
 }

@@ -101,7 +101,7 @@ class Estrutura {
                         }
                         if (Identificadores::string($string) && !Identificadores::numeros($string)) {
                             
-                            if ($operador != "" && $operador == "+") {
+                            if ($operador != "" && ($operador == "=" ||$operador == "+")) {
                                 $tipo = $existeVariavel = false;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($string == $variaveis[$i]['nome']) {
@@ -153,7 +153,7 @@ class Estrutura {
                             }
 
                         } else if (Identificadores::numeros($string)) {
-                            if ($operador != "" && $operador == "+") {
+                            if ($operador != "" && ($operador == "=" ||$operador == "+")) {
                                 $cont = 0;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
