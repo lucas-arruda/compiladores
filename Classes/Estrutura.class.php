@@ -80,7 +80,7 @@ class Estrutura {
                                 if ($operador == "=") {
                                     if ($linha[0] == $variaveis[$i]['nome']) {
                                         if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
-                                            throw new Exception("Valor digitado para variavel está incorreto");
+                                            throw new Exception("Valor digitado para variavel ". $variaveis[$i]['nome'] . " está incorreto");
                                         }
                                         $variaveis[$i]['valor'] = $variaveis[$i]['tipo'] == "float" ? (float)$string : (int)$string;
                                         break;
@@ -124,8 +124,8 @@ class Estrutura {
                                         break;
                                     } 
                                 }
-                                if (!$tipo) {
-                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                if (!isset($tipo)) {
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $linha[0] . " e da " . $string . " são diferentes.");
                                 }
                             }
                             if ($operador != "" && $operador == "-") {
@@ -148,7 +148,7 @@ class Estrutura {
                                     }
                                 }
                                 if ($cont === 0) {
-                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $linha[0] . " e da " . $string . " são diferentes.");
                                 }
                             }
 
@@ -157,7 +157,7 @@ class Estrutura {
                                 $cont = 0;
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
-                                        throw new Exception("Valor digitado para variavel está incorreto");
+                                        throw new Exception("Valor digitado para variavel ". $variaveis[$i]['nome']  . " está incorreto");
                                     }
                                     if ($linha[0] == $variaveis[$i]['nome']) {
                                         $variaveis[$i]['valor'] += $valor;
@@ -174,7 +174,7 @@ class Estrutura {
                                 for ($i = 0;$i < count($variaveis);$i++) {
                                     if ($linha[0] == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
                                         if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
-                                            throw new Exception("Valor digitado para variavel está incorreto");
+                                            throw new Exception("Valor digitado para variavel " . $variaveis[$i]['nome'] . " está incorreto");
                                         }
                                         $variaveis[$i]['valor'] = $variaveis[$i]['valor'] - $valor;
                                         $cont++;
@@ -182,7 +182,7 @@ class Estrutura {
                                     }
                                 }
                                 if ($cont === 0) {
-                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $primeiraString . " e da " . $string . " são diferentes.");
+                                    throw new Exception("Não foi possível calcular os valores. Os tipos das variaveis ". $linha[0] . " e da " . $string . " são diferentes.");
                                 }
                             }
                         } else if (Operandos::operadores($string)) {

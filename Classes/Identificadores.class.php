@@ -11,7 +11,7 @@ class Identificadores {
     }
     
     public static function numeros($string) {
-        if(preg_replace("/[0-9]/", "", $string) != "") {
+        if(preg_replace("/[0-9.]/", "", $string) != "") {
             return false;
         }
         return true;

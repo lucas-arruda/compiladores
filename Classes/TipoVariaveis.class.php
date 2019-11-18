@@ -12,8 +12,8 @@ class TipoVariaveis {
 
     public static function verificaTipoNumerico($tipo, $valor) {
         if ($tipo == "float") {
-            $verificador = preg_replace("/[0-9]", "", $valor);
-            if ($valor == ".") {
+            $verificador = preg_replace("/[0-9]/", "", $valor);
+            if ($verificador == ".") {
                 return true;
             } else {
                 return false;
