@@ -74,3 +74,15 @@
 [18/11/2019 14:31:01] - A linha Array contém erro. 
 [18/11/2019 14:32:19] - A linha Array contém erro. 
 [18/11/2019 14:32:26] - A linha resultado = a  b contém erro. 
+[18/11/2019 14:42:41] - A linha resultado = a  b contém erro. 
+[18/11/2019 14:47:22] - Valor digitado para variavel está incorreto 
+[18/11/2019 14:47:58] - Valor digitado para variavel está incorreto 
+[18/11/2019 14:48:27] - Valor digitado para variavel está incorreto 
+[18/11/2019 14:48:38] - Valor digitado para variavel está incorreto 
+[18/11/2019 14:48:50] - Valor digitado para variavel está incorreto 
+[18/11/2019 14:49:14] - Valor digitado para variavel 1 está incorreto 
+[18/11/2019 14:53:36] - Valor digitado para variavel x está incorreto 
+[18/11/2019 14:55:26] - Palavra 1.2 não reconhecida. 
+[18/11/2019 14:56:13] - Valor digitado para variavel x está incorreto 
+[18/11/2019 14:58:02] - Valor digitado para variavel x está incorreto 
+[18/11/2019 14:58:42] - Valor digitado para variavel y está incorreto 

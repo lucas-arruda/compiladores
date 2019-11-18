@@ -51,7 +51,8 @@ class Compilador {
             return [
                 'erro' => false,
                 'mensagem' => "",
-                'resultado' => $retornoResultado
+                'resultado' => $retornoResultado,
+                'dados_variaveis' => $valoresVariaveis['variaveis']
             ];
         } catch (Exception $e) {
             LogErros::log($e->getMessage());

@@ -18,8 +18,8 @@ var compilar_codigo = function () {
             $("#executar_compilador").html('Compilar');
             return false;
         }
-        console.log(dados.resultado);
         $("#erros").text("");
+        $("#valores_variaveis").val(dados.dados_variaveis);
         $("#texto_resultado").text(dados.resultado);
         $("#executar_compilador").html('Compilar');
         $("#mostrar_fonte").css("display", "none");
@@ -77,19 +77,22 @@ var analisador_lexico = function() {
     }
     $.post('ajax.php', {
         acao: "analisador_lexico",
-        codigo_fonte: $("#codigo_fonte").val()
+        codigo_fonte: $("#codigo_fonte").val(),
+        dados_variaveis: $("#valores_variaveis").val()
     }, function (dados) {
         if (dados.erro) {
             $("#erros").text(dados.mensagem);
             $("#analisador_lexico").html('Compilar');
             return false;
         }
+        $("#tabela_simbolos td").remove();
         for (var i = 0; i < dados.tabela_simbolos.length; i++) {
             $("#tabela_simbolos tbody").append(
                 '<tr>' +
+                '<td>' + dados.tabela_simbolos[i]['cadeia'] + '</td>' +
                 '<td>' + dados.tabela_simbolos[i]['token'] + '</td>' +
+                '<td>' + dados.tabela_simbolos[i]['categoria'] + '</td>' +
                 '<td>' + dados.tabela_simbolos[i]['tipo'] + '</td>' +
-                '<td>' + dados.tabela_simbolos[i]['valor'] + '</td>' +
                 '<tr>'
             );
         }

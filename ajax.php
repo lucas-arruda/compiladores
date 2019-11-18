@@ -14,7 +14,7 @@ switch ($acao) {
         echo json_encode($retornoDados);
         break;
     case "analisador_lexico":
-        $retornoAnalisador = $analisador->analisador($codigo_fonte);
+        $retornoAnalisador = $analisador->analisador($codigo_fonte, $dados_variaveis);
         echo json_encode($retornoAnalisador);
         break;
 }
