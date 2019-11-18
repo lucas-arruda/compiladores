@@ -18,7 +18,6 @@ class Estrutura {
         try {
             $linhas = $valorStrings = [];
             $safe = false;
-            $primeiraString = "";
             foreach ($dados as $registro) {
                 $operador = "";
                 $espacosBrancos = preg_replace("/[^[:space:]]/", "", $registro);
@@ -98,15 +97,8 @@ class Estrutura {
                 if (count($linha) > 3) {
                     foreach ($linha as $string) {
                         if (Identificadores::string($string) && !Identificadores::numeros($string)) {
-                            if ($primeiraString == "") {
-                                for ($i = 0; $i < count($variaveis); $i++) {
-                                    if ($string == $variaveis[$i]['nome']) {
-                                        $primeiraString = $string;
-                                    }
-                                }
-                                if ($primeiraString == "") {
-                                    throw new Exception("Palavra " . $string . " não reconhecida como uma variavel.");
-                                } 
+                            if ($string == "") {
+                                throw new Exception("A palavra " . $string . " não foi reconhecida.");
                             }
                             if ($operador != "" && ($operador == "=" || $operador == "+")) {
                                 $tipo = $existeVariavel = false;
@@ -125,7 +117,7 @@ class Estrutura {
                                     throw new Exception("Variavel " . $string . " não reconhecida.");
                                 }
                                 for ($i = 0;$i < count($variaveis);$i++) {
-                                    if ($primeiraString == $variaveis[$i]['nome'] &&  $tipo == $variaveis[$i]['tipo']) {
+                                    if ($linha[0] == $variaveis[$i]['nome'] &&  $tipo == $variaveis[$i]['tipo']) {
                                         $variaveis[$i]['valor'] += $valor;
                                         $tipo = true;
                                         break;
@@ -148,7 +140,7 @@ class Estrutura {
                                     }
                                 }
                                 for ($i = 0;$i < count($variaveis);$i++) {
-                                    if ($primeiraString == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
+                                    if ($linha[0] == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
                                         $variaveis[$i]['valor'] = $variaveis[$i]['valor'] - $valor;
                                         $cont++;
                                         break;
@@ -165,7 +157,7 @@ class Estrutura {
                                     if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
                                         throw new Exception("Valor digitado para variavel está incorreto");
                                     }
-                                    if ($primeiraString == $variaveis[$i]['nome']) {
+                                    if ($linha[0] == $variaveis[$i]['nome']) {
                                         $variaveis[$i]['valor'] += $valor;
                                         $cont++;
                                         break;
@@ -178,7 +170,7 @@ class Estrutura {
                             if ($operador != "" && $operador == "-") {
                                 $cont = 0;
                                 for ($i = 0;$i < count($variaveis);$i++) {
-                                    if ($primeiraString == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
+                                    if ($linha[0] == $variaveis[$i]['nome'] && $tipo == $variaveis[$i]['tipo']) {
                                         if(!TipoVariaveis::verificaTipoNumerico($variaveis[$i]['tipo'], $string)) {
                                             throw new Exception("Valor digitado para variavel está incorreto");
                                         }

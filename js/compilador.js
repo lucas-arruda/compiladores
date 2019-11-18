@@ -18,7 +18,7 @@ var compilar_codigo = function () {
             $("#executar_compilador").html('Compilar');
             return false;
         }
-        
+        console.log(dados.resultado);
         $("#erros").text("");
         $("#texto_resultado").text(dados.resultado);
         $("#executar_compilador").html('Compilar');
@@ -62,7 +62,7 @@ var abrir_documentacao = function() {
 };
 
 var abrir_automato = function() {
-    nova_aba = window.open("imagem/automato.png");
+    nova_aba = window.open("imagem/automato.jpeg");
 };
 
 var analisador_lexico = function() {
@@ -79,7 +79,24 @@ var analisador_lexico = function() {
         acao: "analisador_lexico",
         codigo_fonte: $("#codigo_fonte").val()
     }, function (dados) {
-
+        if (dados.erro) {
+            $("#erros").text(dados.mensagem);
+            $("#analisador_lexico").html('Compilar');
+            return false;
+        }
+        for (var i = 0; i < dados.tabela_simbolos.length; i++) {
+            $("#tabela_simbolos tbody").append(
+                '<tr>' +
+                '<td>' + dados.tabela_simbolos[i]['token'] + '</td>' +
+                '<td>' + dados.tabela_simbolos[i]['tipo'] + '</td>' +
+                '<td>' + dados.tabela_simbolos[i]['valor'] + '</td>' +
+                '<tr>'
+            );
+        }
+        $("#analisador_lexico").html('Tabela de simbolo');
+        $("#mostrar_tabela").css("display", "block");
+        $("#mostrar_fonte").css("display", "none");
+        $("#mostrar_erros").css("display", "none");
     }, "json");
 }
 
