@@ -21,7 +21,7 @@ class AnalisadorLexico {
 
     public function estado0() {
         $this->simbolo = $this->entrada[$this->cont++];
-        if ($this->simbolo == "<" || $this->simbolo == "#") {
+        if ($this->simbolo == "<" || $this->simbolo == "#" || $this->simbolo == "v") {
             $this->cadeia .= $this->simbolo;
             $this->estadoAtual = 1;
         } else {
@@ -32,7 +32,7 @@ class AnalisadorLexico {
 
     public function estado1() {
         $this->simbolo = $this->entrada[$this->cont++];
-        if ($this->simbolo == "#" || $this->simbolo == ">") {
+        if ($this->simbolo == "#" || $this->simbolo == ">" || $this->simbolo == "a") {
             $this->cadeia .= $this->simbolo;
             $this->estadoAtual = 2;
         } else {
@@ -42,11 +42,22 @@ class AnalisadorLexico {
     }
 
     public function estado2() {
+        $this->simbolo = $this->entrada[$this->cont++];
+        if ($this->simbolo == "s" || $this->simbolo == "r") {
+            $this->cadeia .= $this->simbolo;
+            $this->estadoAtual = 3;
+        } else {
+            $this->terminou = true;
+            $this->erro = true;
+        } 
+    }
+
+    public function estado3() {
         if (isset($this->entrada[$this->cont + 1])) {
             $this->simbolo = $this->entrada[$this->cont++];
-            if ($this->simbolo == "s") {
+            if ($this->simbolo == "t") {
                 $this->cadeia .= $this->simbolo;
-                $this->estadoAtual = 3;
+                $this->estadoAtual = 4;
             } else {
                 $this->terminou = true;
                 $this->erro = true;
@@ -62,18 +73,6 @@ class AnalisadorLexico {
             }
         }
         
-        
-    }
-
-    public function estado3() {
-        $this->simbolo = $this->entrada[$this->cont++];
-        if ($this->simbolo == "t") {
-            $this->cadeia .= $this->simbolo;
-            $this->estadoAtual = 4;
-        } else {
-            $this->terminou = true;
-            $this->erro = true;
-        }
     }
 
     public function estado4() {
@@ -124,11 +123,12 @@ class AnalisadorLexico {
         try {
             $codigoFonte = array_filter(explode("\n", $dados));
             foreach ($codigoFonte as $linha) {
+                $this->entrada = [];
                 $tamanhoString = strlen($linha);
                 for ($i = 0; $i < $tamanhoString; $i++) {
                     $this->entrada[$i] = substr($linha, $i, 1);
                 }
-                $this->simbolo = "";
+                $this->simbolo = $this->cadeia = "";
                 $this->terminou = false;
                 $this->estadoAtual = $this->cont = 0;
                 while(!$this->terminou) {
