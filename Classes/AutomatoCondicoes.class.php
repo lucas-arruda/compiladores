@@ -5,7 +5,7 @@ require_once 'Classes/PalavrasReservadas.class.php';
 require_once 'Classes/TipoVariaveis.class.php';
 require_once 'Classes/Operandos.class.php';
 
-class AutomatoShow {
+class AutomatoCondicoes {
     private $entrada = [];
     private $tabelaSimbolos = [];
     private $simbolo;
@@ -42,6 +42,9 @@ class AutomatoShow {
         if (Identificadores::numeros($this->simbolo)) {
             $this->cadeia .= $this->simbolo;
             $this->estadoAtual = 3;
+        } else if ((Identificadores::string($this->simbolo) && !Identificadores::numeros($this->simbolo))) {
+            $this->cadeia .= $this->simbolo;
+            $this->estadoAtual = 6;
         } else {
             $this->terminou = true;
             $this->erro = true;
@@ -50,16 +53,30 @@ class AutomatoShow {
     public function estado3() {
         $this->simbolo = $this->entrada[$this->cont++];
         while (Identificadores::numeros($this->simbolo)) {
-            $this->simbolo = $this->entrada[$this->cont++];
-            $this->cadeia .= $this->simbolo;
+            if ($this->simbolo == ".") {
+                $this->cadeia .= $this->simbolo;
+                $this->tabelaSimbolos($this->simbolo, "Identificador", "Palavra reservada");
+                break;
+            } else {
+                $this->simbolo = $this->entrada[$this->cont++];
+                $this->cadeia .= $this->simbolo;
+            }
         }
-        $this->tabelaSimbolos($this->cadeia, "Numerador", "Numerico", "Float");
-        if ($this->simbolo == ".") {
-            $this->cadeia .= $this->simbolo;
-            $this->tabelaSimbolos($this->cadeia, "Identificador", "Palavra reservada");
+        if ($this->simbolo == "+" || $this->simbolo == "-") {
+            $this->tabelaSimbolos($this->cadeia, "Numerador", "Numerico", "Int");
             $this->cadeia = "";
+            $categoria = $this->simbolo == "+" ? "Adição" : "Subtração";
+            $this->tabelaSimbolos($this->simbolo, "Operador", $categoria);
+            $this->estadoAtual = 7;
+        } else if ($this->simbolo == ";") {
+            $this->tabelaSimbolos($this->cadeia, "Numerador", "Numerico", "Int");
+            $this->cadeia = "";
+            $this->tabelaSimbolos($this->simbolo, "Separador", "Simbolo para separação");
+            $this->estadoAtual = 8;
+        } else if ($this->simbolo == ".") {
             $this->estadoAtual = 4;
-        } else {
+        }
+        else {
             $this->terminou = true;
             $this->erro = true;
         }
@@ -67,8 +84,8 @@ class AutomatoShow {
     }
     public function estado4() {
         $this->simbolo = $this->entrada[$this->cont++];
-        if ($this->simbolo == "(") {
-            $this->tabelaSimbolos($this->simbolo, "Separador", "Simbolo para separação");
+        if (Identificadores::numeros($this->simbolo)) {
+            $this->cadeia .= $this->simbolo;
             $this->estadoAtual = 5;
         } else {
             $this->terminou = true;
@@ -78,8 +95,20 @@ class AutomatoShow {
 
     public function estado5() {
         $this->simbolo = $this->entrada[$this->cont++];
-        if (Identificadores::string($this->simbolo) && !Identificadores::numeros($this->simbolo)) {
-            $this->estadoAtual = 6;
+        while (Identificadores::numeros($this->simbolo)) {
+            $this->simbolo = $this->entrada[$this->cont++];
+            $this->cadeia .= $this->simbolo;
+        }
+        if ($this->simbolo == "+" || $this->simbolo == "-") {
+            $this->tabelaSimbolos($this->cadeia, "Numerador", "Numerico", "Float");
+            $this->cadeia = "";
+            $categoria = $this->simbolo == "+" ? "Adição" : "Subtração";
+            $this->tabelaSimbolos($this->simbolo, "Operador", $categoria);
+            $this->estadoAtual = 7;
+        } else if ($this->simbolo == ";") {
+            $this->tabelaSimbolos($this->cadeia, "Numerador", "Numerico", "Float");
+            $this->tabelaSimbolos($this->simbolo, "Separador", "Simbolo para separação");
+            $this->estadoAtual = 8;
         } else {
             $this->terminou = true;
             $this->erro = true;
@@ -91,19 +120,27 @@ class AutomatoShow {
         while (Identificadores::string($this->simbolo)) {
             $this->simbolo = $this->entrada[$this->cont++];
         }
-        if ($this->simbolo == ")") {
-            $this->tabelaSimbolos($this->simbolo, "Separador", "Simbolo para separação");
+        if ($this->simbolo == "+" || $this->simbolo == "-") {
+            $categoria = $this->simbolo == "+" ? "Adição" : "Subtração";
+            $this->tabelaSimbolos($this->simbolo, "Operador", $categoria);
             $this->estadoAtual = 7;
-        } else {
+        } else if ($this->simbolo == ";") {
+            $this->tabelaSimbolos($this->simbolo, "Separador", "Simbolo para separação");
+            $this->estadoAtual = 8;
+        }
+        else {
             $this->terminou = true;
             $this->erro = true;
         }
     }
     public function estado7() {
         $this->simbolo = $this->entrada[$this->cont++];
-        if ($this->simbolo == ";") {
-            $this->tabelaSimbolos($this->simbolo, "Separador", "Simbolo para separação");
-            $this->estadoAtual = 8;
+        if (Identificadores::numeros($this->simbolo)) {
+            $this->cadeia .= $this->simbolo;
+            $this->estadoAtual = 3;
+        } else if ((Identificadores::string($this->simbolo) && !Identificadores::numeros($this->simbolo))) {
+            $this->cadeia .= $this->simbolo;
+            $this->estadoAtual = 6;
         } else {
             $this->terminou = true;
             $this->erro = true;

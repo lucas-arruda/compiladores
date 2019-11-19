@@ -86,16 +86,17 @@ var analisador_lexico = function() {
             return false;
         }
         $("#tabela_simbolos td").remove();
-        for (var i = 0; i < dados.tabela_simbolos.length; i++) {
+
+        Object.keys(dados.tabela_simbolos).map(function(key){
             $("#tabela_simbolos tbody").append(
                 '<tr>' +
-                '<td>' + dados.tabela_simbolos[i]['cadeia'] + '</td>' +
-                '<td>' + dados.tabela_simbolos[i]['token'] + '</td>' +
-                '<td>' + dados.tabela_simbolos[i]['categoria'] + '</td>' +
-                '<td>' + dados.tabela_simbolos[i]['tipo'] + '</td>' +
+                '<td>' + dados.tabela_simbolos[key].cadeia + '</td>' +
+                '<td>' + dados.tabela_simbolos[key].token + '</td>' +
+                '<td>' + dados.tabela_simbolos[key].categoria + '</td>' +
+                '<td>' + dados.tabela_simbolos[key].tipo + '</td>' +
                 '<tr>'
-            );
-        }
+            );;
+        });
         $("#analisador_lexico").html('Tabela de simbolo');
         $("#mostrar_tabela").css("display", "block");
         $("#mostrar_fonte").css("display", "none");

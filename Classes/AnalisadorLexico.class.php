@@ -7,6 +7,7 @@ require_once 'Classes/AutomatoVariaveisFloat.class.php';
 require_once 'Classes/AutomatoVariaveisInt.class.php';
 require_once 'Classes/AutomatoSafe.class.php';
 require_once 'Classes/AutomatoShow.class.php';
+require_once 'Classes/AutomatoCondicoes.class.php';
 
 class AnalisadorLexico {
     private $tabelaSimbolos = [];
@@ -20,9 +21,10 @@ class AnalisadorLexico {
         $automatoVariaveisInt = new AutomatoVariaveisInt();
         $automatoSafe = new AutomatoSafe();
         $automatoShow = new AutomatoShow();
+        $automatoCondicoes = new AutomatoCondicoes();
         $codigoFonte = array_filter(explode("\n", $dados));
         foreach ($codigoFonte as $linha) {
-            $simboloInicial = $simboloFinal = $simboloVar = $simboloVariaveis = $simboloSafe = $simboloShow = "";
+            $simboloInicial = $simboloFinal = $simboloVar = $simboloVariaveis = $simboloSafe = $simboloShow = $simboloCondicoes = "";
             if (substr($linha, 0, 3) == "var") {
                 $simboloVar = $automatoVar->validarAutomato(substr($linha, 0, 3));
                 $tabelaSimbolos = $this->tabelaSimbolos($simboloVar);
@@ -53,7 +55,12 @@ class AnalisadorLexico {
                 $tabelaSimbolos = $this->tabelaSimbolos($simboloShow);
             }
             unset($simboloShow);
+            if ($simboloCondicoes = $automatoCondicoes->validarAutomato($linha)) {
+                $tabelaSimbolos = $this->tabelaSimbolos($simboloCondicoes);
+            }
+            unset($simboloShow);
         }
+        $tabelaSimbolos = array_map("unserialize", array_unique(array_map("serialize", $tabelaSimbolos)));
         return [
             'erro' => false,
             'tabela_simbolos' => $tabelaSimbolos
@@ -70,7 +77,6 @@ class AnalisadorLexico {
             ];
             $this->cont++;
         }
-        
         return $this->tabelaSimbolos;
     }
 }
