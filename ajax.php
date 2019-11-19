@@ -20,7 +20,7 @@ switch ($acao) {
         //         'mensagem' => "Necessario compilar o codigo para verificar o analisador lexico."
         //     ]);
         // }
-        $retornoAnalisador = $analisador->analisador($codigo_fonte, $dados_variaveis);
+        $retornoAnalisador = $analisador->analisador($codigo_fonte);
         echo json_encode($retornoAnalisador);
         break;
 }
